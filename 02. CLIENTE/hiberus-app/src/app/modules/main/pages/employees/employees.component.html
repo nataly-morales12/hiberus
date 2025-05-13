@@ -1,0 +1,115 @@
+<div class="container my-4">
+  <h2 class="mb-4">Empleados</h2>
+
+  <button class="btn btn-primary mb-3" (click)="mostrarFormulario = true">Agregar</button>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Salario</th>
+        <th>Estatus</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleado of empleados">
+        <td>{{ empleado.id }}</td>
+        <td>{{ empleado.name }} {{ empleado.last_name}}</td>
+        <td>{{ empleado.age }}</td>
+        <td>{{ empleado.salary }}</td>
+        <td>{{ empleado.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="mostrarFormulario" class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar Empleado</h5>
+          <button type="button" class="btn-close" (click)="cerrarFormulario()"></button>
+        </div>
+
+        <div class="modal-body">
+          <form #form="ngForm" (ngSubmit)="guardarEmpleado()">
+          <div class="row">
+            <!-- Departamento -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Departamento:</label>
+              <select [(ngModel)]="nuevoEmpleado.departamento" name="departamento" #departamento="ngModel" class="form-select" required>
+                <option *ngFor="let d of departamentosObject" [value]="d.id">{{ d.name }}</option>
+              </select>
+              <div class="text-danger" *ngIf="departamento.invalid && departamento.touched">Seleccione un departamento.</div>
+            </div>
+
+            <!-- Nombre -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Nombre:</label>
+              <input [(ngModel)]="nuevoEmpleado.name" name="name" #name="ngModel" class="form-control" required />
+              <div class="text-danger" *ngIf="name.invalid && name.touched">El nombre es obligatorio.</div>
+            </div>
+
+            <!-- Apellido -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Apellido:</label>
+              <input [(ngModel)]="nuevoEmpleado.last_name" name="last_name" #last_name="ngModel" class="form-control" required />
+              <div class="text-danger" *ngIf="last_name.invalid && last_name.touched">El apellido es obligatorio.</div>
+            </div>
+
+            <!-- Edad -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Edad:</label>
+              <input [(ngModel)]="nuevoEmpleado.age" name="age" #age="ngModel" type="number" class="form-control" required min="1" />
+              <div class="text-danger" *ngIf="age.invalid && age.touched">
+                <div *ngIf="age.errors?.['required']">La edad es obligatoria.</div>
+                <div *ngIf="age.errors?.['min']">Debe ser mayor que 0.</div>
+              </div>
+            </div>
+
+            <!-- Salario -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Salario:</label>
+              <input [(ngModel)]="nuevoEmpleado.salary" name="salary" #salary="ngModel" type="number" class="form-control" required min="0" />
+              <div class="text-danger" *ngIf="salary.invalid && salary.touched">
+                <div *ngIf="salary.errors?.['required']">El salario es obligatorio.</div>
+                <div *ngIf="salary.errors?.['min']">No puede ser negativo.</div>
+              </div>
+            </div>
+
+            <!-- Fecha Ingreso -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Fecha Ingreso:</label>
+              <input [(ngModel)]="nuevoEmpleado.init_date" name="init_date" #init_date="ngModel" type="date" class="form-control" required />
+              <div class="text-danger" *ngIf="init_date.invalid && init_date.touched">Fecha de ingreso requerida.</div>
+            </div>
+
+            <!-- Fecha Salida -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Fecha Salida:</label>
+              <input [(ngModel)]="nuevoEmpleado.end_date" name="end_date" type="date" class="form-control" />
+            </div>
+
+            <!-- Estatus -->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Estatus:</label>
+              <select [(ngModel)]="nuevoEmpleado.status" name="estatus" #estatus="ngModel" class="form-select" required>
+                <option value='A'>Activo</option>
+                <option value='I'>Inactivo</option>
+              </select>
+              <div class="text-danger" *ngIf="estatus.invalid && estatus.touched">Seleccione un estatus.</div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button type="button" class="btn btn-secondary" (click)="cerrarFormulario()">Cancelar</button>
+          </div>
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

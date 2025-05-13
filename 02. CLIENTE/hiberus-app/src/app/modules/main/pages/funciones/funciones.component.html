@@ -1,0 +1,24 @@
+<div class="container my-4">
+  <div class="d-flex gap-2 mb-3">
+    <button class="btn btn-primary" (click)="obtenerSalarioMasAlto()">Salario más alto</button>
+    <button class="btn btn-success" (click)="obtenerEmpleadoJoven()">Empleado más joven</button>
+    <button class="btn btn-info" (click)="obtenerUltimoMes()">Recién ingresados</button>
+  </div>
+
+  <div *ngIf="data?.id != 0" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Resultado</h5>
+      <p *ngIf="data.name">Nombre: {{ data.name }} {{ data.last_name }}</p>
+      <p *ngIf="data.salary">Salario: {{ data.salary }}</p>
+      <p *ngIf="data.age">Edad: {{ data.age }}</p>
+      <p *ngIf="data.init_date">Fecha de ingreso: {{ data.init_date | date }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="numero != 0 && (!data || data.id == 0)" class="card">
+    <div class="card-body">
+      <h5 class="card-title">Resultado</h5>
+      <p>Número de empleados: {{ numero }}</p>
+    </div>
+  </div>
+</div>
